@@ -15,6 +15,7 @@ public class ColyseusClient : MonoBehaviour {
 	public string serverName = "localhost";
 	public string port = "8080";
 	public string roomName = "chat";
+    public GameObject spawnPrefab;
 
 	// map of players
 	Dictionary<string, GameObject> players = new Dictionary<string, GameObject>();
@@ -65,6 +66,13 @@ public class ColyseusClient : MonoBehaviour {
 		}
 	}
 
+	public void Update()
+	{
+        if(Input.GetKeyDown(KeyCode.A)){
+            room.Send(new { x1 = 1, y1 = 1});
+        }
+	}
+
 	void OnOpenHandler (object sender, EventArgs e)
 	{
 		Debug.Log("Connected to server. Client id: " + client.id);
@@ -99,7 +107,7 @@ public class ColyseusClient : MonoBehaviour {
 		if (change.operation == "add") {
 			IndexedDictionary<string, object> value = (IndexedDictionary<string, object>) change.value;
 
-			GameObject cube = GameObject.CreatePrimitive (PrimitiveType.Cube);
+			GameObject cube = Instantiate (spawnPrefab, Vector3.zero, Quaternion.identity);
 
 			cube.transform.position = new Vector3 (Convert.ToSingle(value ["x"]), Convert.ToSingle(value ["y"]), 0);
 
@@ -116,6 +124,7 @@ public class ColyseusClient : MonoBehaviour {
 		}
 	}
 
+    public float lastTime;
 	void OnPlayerMove (DataChange change)
 	{
 //		Debug.Log ("OnPlayerMove");
@@ -125,7 +134,12 @@ public class ColyseusClient : MonoBehaviour {
 		GameObject cube;
 		players.TryGetValue (change.path ["id"], out cube);
 
-		cube.transform.Translate (new Vector3 (Convert.ToSingle(change.value), 0, 0));
+        TextMesh tm = cube.GetComponent<TextMesh>();
+        if(tm != null){
+            tm.text = (Time.time - lastTime).ToString();
+        }
+        lastTime = Time.time;
+		//cube.transform.Translate (new Vector3 (Convert.ToSingle(change.value), 0, 0));
 	}
 
 	void OnPlayerRemoved (DataChange change)
