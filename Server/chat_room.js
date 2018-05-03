@@ -37,8 +37,8 @@ class ChatRoom extends Room {
 
   onMessage (client, data) {
 //    console.log(data, "received from", client.sessionId);
-    this.state.players[sessionId].x1 = data.x1;
-    this.state.players[sessionId].y1 = data.y1;
+    this.state.players[client.sessionId].x1 = data.x1;
+    this.state.players[client.sessionId].y1 = data.y1;
     this.state.messages.push(client.sessionId + " sent " + data);
 
     this.broadcast({hello: "hello world"});
@@ -47,7 +47,7 @@ class ChatRoom extends Room {
   update () {
 //    console.log("num clients:", Object.keys(this.clients).length);
     for (var sessionId in this.state.players) {
-      this.state.players[sessionId].x += (0.0001);
+      this.state.players[sessionId].x += this.state.players[sessionId].x1;
     }
   }
 
