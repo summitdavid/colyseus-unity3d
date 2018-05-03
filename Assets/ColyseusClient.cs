@@ -11,6 +11,7 @@ public class ColyseusClient : MonoBehaviour {
 
 	Client client;
 	Room room;
+    bool is_joined = false;
 
 	public string serverName = "localhost";
 	public string port = "8080";
@@ -56,21 +57,54 @@ public class ColyseusClient : MonoBehaviour {
 		{
 			client.Recv();
 
-			i++;
+            i++;
 
-			if (i % 50 == 0) {
-				room.Send("some_command");
-			}
+            if(is_joined){
+                bool do_send = false;
+                int setX1 = 0, setY1 = 0;
+                if (Input.GetKeyDown(KeyCode.A))
+                {
+                    setX1--;
+                    do_send = true;
+                }
+                else if (Input.GetKeyUp(KeyCode.A))
+                {
+                    do_send = true;
+                }
+                if (Input.GetKeyDown(KeyCode.D))
+                {
+                    setX1++;
+                    do_send = true;
+                }
+                else if (Input.GetKeyUp(KeyCode.D))
+                {
+                    do_send = true;
+                }
+                if (Input.GetKeyDown(KeyCode.S))
+                {
+                    setY1--;
+                    do_send = true;
+                }
+                else if (Input.GetKeyUp(KeyCode.S))
+                {
+                    do_send = true;
+                }
+                if (Input.GetKeyDown(KeyCode.W))
+                {
+                    setY1++;
+                    do_send = true;
+                }
+                else if (Input.GetKeyUp(KeyCode.W))
+                {
+                    do_send = true;
+                }
+                if(do_send){
+                    room.Send(new { x1 = setX1, y1 = setY1 });
+                }
+            }
 
 			yield return 0;
 		}
-	}
-
-	public void Update()
-	{
-        if(Input.GetKeyDown(KeyCode.A)){
-            room.Send(new { x1 = 1, y1 = 1});
-        }
 	}
 
 	void OnOpenHandler (object sender, EventArgs e)
@@ -81,6 +115,7 @@ public class ColyseusClient : MonoBehaviour {
 	void OnRoomJoined (object sender, EventArgs e)
 	{
 		Debug.Log("Joined room successfully.");
+        is_joined = true;
 	}
 
 	void OnMessage (object sender, MessageEventArgs e)
@@ -135,9 +170,10 @@ public class ColyseusClient : MonoBehaviour {
 		players.TryGetValue (change.path ["id"], out cube);
 
         TextMesh tm = cube.GetComponent<TextMesh>();
-        if(tm != null){
-            tm.text = (Time.time - lastTime).ToString();
+        if(tm != null && change.path["axis"] == "x"){
+            tm.text = change.value.ToString();
         }
+        //cube.transform.position = new Vector3(change.path["axis"])
         lastTime = Time.time;
 		//cube.transform.Translate (new Vector3 (Convert.ToSingle(change.value), 0, 0));
 	}
