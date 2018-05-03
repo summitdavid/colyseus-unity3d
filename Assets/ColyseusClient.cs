@@ -12,6 +12,7 @@ public class ColyseusClient : MonoBehaviour {
 	Client client;
 	Room room;
     bool is_joined = false;
+    int setX1 = 0, setY1 = 0;
 
 	public string serverName = "localhost";
 	public string port = "8080";
@@ -61,7 +62,6 @@ public class ColyseusClient : MonoBehaviour {
 
             if(is_joined){
                 bool do_send = false;
-                int setX1 = 0, setY1 = 0;
                 if (Input.GetKeyDown(KeyCode.A))
                 {
                     setX1--;
@@ -69,6 +69,7 @@ public class ColyseusClient : MonoBehaviour {
                 }
                 else if (Input.GetKeyUp(KeyCode.A))
                 {
+                    setX1++;
                     do_send = true;
                 }
                 if (Input.GetKeyDown(KeyCode.D))
@@ -78,6 +79,7 @@ public class ColyseusClient : MonoBehaviour {
                 }
                 else if (Input.GetKeyUp(KeyCode.D))
                 {
+                    setX1--;
                     do_send = true;
                 }
                 if (Input.GetKeyDown(KeyCode.S))
@@ -87,6 +89,7 @@ public class ColyseusClient : MonoBehaviour {
                 }
                 else if (Input.GetKeyUp(KeyCode.S))
                 {
+                    setY1++;
                     do_send = true;
                 }
                 if (Input.GetKeyDown(KeyCode.W))
@@ -96,6 +99,7 @@ public class ColyseusClient : MonoBehaviour {
                 }
                 else if (Input.GetKeyUp(KeyCode.W))
                 {
+                    setY1--;
                     do_send = true;
                 }
                 if(do_send){
