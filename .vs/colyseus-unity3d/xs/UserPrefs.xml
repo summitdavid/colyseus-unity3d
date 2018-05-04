@@ -1,6 +1,6 @@
 ﻿<Properties StartupConfiguration="{21ECE2C3-4A2D-B1ED-E83A-2EDB86D1ABC7}|">
   <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Player.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/ColyseusClient.cs">
     <Files>
       <File FileName="Assets/ColyseusClient.cs" Line="178" Column="35" />
       <File FileName="Assets/Player.cs" Line="25" Column="48" />

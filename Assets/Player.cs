@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Colyseus;
+using System;
 
 public class Player : MonoBehaviour {
 
@@ -11,10 +12,10 @@ public class Player : MonoBehaviour {
     public void UpdatePosition (DataChange change) {
         switch(change.path["axis"]){
             case "x":
-                x = (float)change.value / 10;
+                x = Convert.ToSingle(change.value) / 10;
                 break;
             case "y":
-                y = (float)change.value / 10;
+                y = Convert.ToSingle(change.value) / 10;
                 break;
             default:
                 break;

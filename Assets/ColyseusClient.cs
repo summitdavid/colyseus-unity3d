@@ -173,10 +173,8 @@ public class ColyseusClient : MonoBehaviour {
 		GameObject cube;
 		players.TryGetValue (change.path ["id"], out cube);
 
-        TextMesh tm = cube.GetComponent<TextMesh>();
-        if(tm != null && change.path["axis"] == "x"){
-            tm.text = change.value.ToString();
-        }
+        Player player = cube.GetComponent<Player>();
+        player.UpdatePosition(change);
         //cube.transform.position = new Vector3(change.path["axis"])
         lastTime = Time.time;
 		//cube.transform.Translate (new Vector3 (Convert.ToSingle(change.value), 0, 0));
