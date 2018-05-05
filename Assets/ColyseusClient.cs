@@ -163,7 +163,6 @@ public class ColyseusClient : MonoBehaviour {
 		}
 	}
 
-    public float lastTime;
 	void OnPlayerMove (DataChange change)
 	{
 //		Debug.Log ("OnPlayerMove");
@@ -174,9 +173,8 @@ public class ColyseusClient : MonoBehaviour {
 		players.TryGetValue (change.path ["id"], out cube);
 
         Player player = cube.GetComponent<Player>();
-        player.UpdatePosition(change);
+        player.UpdatePosition(change, client.id == change.path["id"].ToString());
         //cube.transform.position = new Vector3(change.path["axis"])
-        lastTime = Time.time;
 		//cube.transform.Translate (new Vector3 (Convert.ToSingle(change.value), 0, 0));
 	}
 
