@@ -36,7 +36,7 @@ class ChatRoom extends Room {
   }
 
   onMessage (client, data) {
-    console.log(data, "received from", client.sessionId);
+    //console.log(data, "received from", client.sessionId);
     if(data.rand1 == null){
       this.state.players[client.sessionId].x1 = data.x1;
       this.state.players[client.sessionId].y1 = data.y1;
@@ -45,7 +45,7 @@ class ChatRoom extends Room {
       this.state.players[client.sessionId].rand1 = data.rand1;
       this.state.players[client.sessionId].rand2 = data.rand2;
     }
-    this.state.messages.push(client.sessionId + " sent " + data);
+    //this.state.messages.push(client.sessionId + " sent " + data);
   }
 
   update () {
