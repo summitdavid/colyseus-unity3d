@@ -25,7 +25,7 @@ class ChatRoom extends Room {
 
   onJoin (client) {
     console.log("client joined!", client.sessionId);
-    this.state.players[client.sessionId] = { x: 0, y: 0, x1: 0, y1: 0};
+    this.state.players[client.sessionId] = { x: 0, y: 0, x1: 0, y1: 0, rand1: 0, rand2: 0};
     console.log("num clients:", Object.keys(this.clients).length);
   }
 
@@ -37,9 +37,13 @@ class ChatRoom extends Room {
 
   onMessage (client, data) {
     console.log(data, "received from", client.sessionId);
-    if(data.rand == null){
+    if(data.rand1 == null){
       this.state.players[client.sessionId].x1 = data.x1;
       this.state.players[client.sessionId].y1 = data.y1;
+    }
+    else{
+      this.state.players[client.sessionId].rand1 = data.rand1;
+      this.state.players[client.sessionId].rand2 = data.rand2;
     }
     this.state.messages.push(client.sessionId + " sent " + data);
   }
@@ -47,8 +51,8 @@ class ChatRoom extends Room {
   update () {
 //    console.log("num clients:", Object.keys(this.clients).length);
     for (var sessionId in this.state.players) {
-      this.state.players[sessionId].x += this.state.players[sessionId].x1 + Math.random() - 0.5;
-      this.state.players[sessionId].y += this.state.players[sessionId].y1 + Math.random() - 0.5;
+      this.state.players[sessionId].x += this.state.players[sessionId].x1 + this.state.players[sessionId].rand1;
+      this.state.players[sessionId].y += this.state.players[sessionId].y1 + this.state.players[sessionId].rand2;
     }
   }
 

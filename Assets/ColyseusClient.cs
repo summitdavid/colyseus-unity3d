@@ -106,7 +106,7 @@ public class ColyseusClient : MonoBehaviour {
                     do_send = true;
                 }
                 else if(lastSendTime + baseSendRate < Time.time){
-                    room.Send(new { rand = 0.1f });
+                    room.Send(new { rand1 = UnityEngine.Random.value - 0.5f, rand2 = UnityEngine.Random.value - 0.5f });
                 }
                 if(do_send){
                     room.Send(new { x1 = setX1, y1 = setY1 });
