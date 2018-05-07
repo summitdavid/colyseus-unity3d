@@ -45,6 +45,10 @@ public class Player : MonoBehaviour {
                 Camera.main.transform.position += (yDif + centerScreenBoxSize) * Vector3.up;
             }
         }
+        lastPing = Time.time;
+    }
+
+    void Update(){
         float ping = Time.time - lastPing;
         if (ping < 0.1f)
         {
@@ -74,10 +78,6 @@ public class Player : MonoBehaviour {
         {
             GetComponent<SpriteRenderer>().color = Color.black;
         }
-        lastPing = Time.time;
-    }
-
-    void Update(){
         transform.position = new Vector2(x, y);
     }
 }

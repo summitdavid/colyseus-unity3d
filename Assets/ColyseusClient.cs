@@ -17,6 +17,8 @@ public class ColyseusClient : MonoBehaviour {
 	public string serverName = "localhost";
 	public string port = "8080";
 	public string roomName = "chat";
+    public float baseSendRate = 0.05f;
+    float lastSendTime;
     public GameObject spawnPrefab;
 
 	// map of players
@@ -24,6 +26,7 @@ public class ColyseusClient : MonoBehaviour {
 
 	// Use this for initialization
 	IEnumerator Start () {
+        lastSendTime = Time.time;
 		String uri = "ws://" + serverName + ":" + port;
 		Debug.Log (uri);
 		client = new Client(uri);
@@ -102,8 +105,12 @@ public class ColyseusClient : MonoBehaviour {
                     setY1--;
                     do_send = true;
                 }
+                else if(lastSendTime + baseSendRate < Time.time){
+                    room.Send(new { rand = 0.1f });
+                }
                 if(do_send){
                     room.Send(new { x1 = setX1, y1 = setY1 });
+                    lastSendTime = Time.time;
                 }
             }
 
@@ -173,7 +180,7 @@ public class ColyseusClient : MonoBehaviour {
 		players.TryGetValue (change.path ["id"], out cube);
 
         Player player = cube.GetComponent<Player>();
-        player.UpdatePosition(change, client.id == change.path["id"].ToString());
+        player.UpdatePosition(change, room.sessionId == change.path["id"].ToString());
         //cube.transform.position = new Vector3(change.path["axis"])
 		//cube.transform.Translate (new Vector3 (Convert.ToSingle(change.value), 0, 0));
 	}

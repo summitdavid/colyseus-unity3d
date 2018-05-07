@@ -25,7 +25,7 @@ class ChatRoom extends Room {
 
   onJoin (client) {
     console.log("client joined!", client.sessionId);
-    this.state.players[client.sessionId] = { x: 0, y: 0, x1: 0, y1: 0};
+    this.state.players[client.sessionId] = { x: 0, y: 0, x1: 0, y1: 0, rand: 0};
     console.log("num clients:", Object.keys(this.clients).length);
   }
 
@@ -37,11 +37,14 @@ class ChatRoom extends Room {
 
   onMessage (client, data) {
     console.log(data, "received from", client.sessionId);
-    this.state.players[client.sessionId].x1 = data.x1;
-    this.state.players[client.sessionId].y1 = data.y1;
-    this.state.messages.push(client.sessionId + " sent " + data);
-
-    this.broadcast({hello: "hello world"});
+    if(data.x1 != null){
+      this.state.players[client.sessionId].x1 = data.x1;
+      this.state.players[client.sessionId].y1 = data.y1;
+    }
+    else if(data.rand != null){
+      this.state.players[client.sessionId].rand = data.rand;
+    }
+//    this.state.messages.push(client.sessionId + " sent " + data);
   }
 
   update () {
