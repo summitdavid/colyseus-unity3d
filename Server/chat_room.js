@@ -48,7 +48,7 @@ class ChatRoom extends Room {
 //    console.log("num clients:", Object.keys(this.clients).length);
     for (var sessionId in this.state.players) {
       this.state.players[sessionId].x += this.state.players[sessionId].x1 + Math.random() - 0.5;
-      this.state.players[sessionId].y += this.state.players[sessionId].y1 + Math.random() -.0.5;
+      this.state.players[sessionId].y += this.state.players[sessionId].y1 + Math.random() - 0.5;
     }
   }
 
